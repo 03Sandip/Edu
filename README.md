@@ -40,3 +40,17 @@ Some features are incomplete or in progress. We are actively working to improve 
 
 ## 📁 Project Structure (High-Level)
 
+## 🤝 Contributing
+
+Currently, this is a personal/academic project. Contributions and suggestions are welcome after the first stable release.
+
+## 📢 Disclaimer
+
+This is a work-in-progress project for educational and development purposes.  
+Please don't consider it production-ready yet.
+
+---
+
+### 🔗 GitHub: [03Sandip/Edu](https://github.com/03Sandip/Edu)
+
+
