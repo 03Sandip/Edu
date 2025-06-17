@@ -4,7 +4,7 @@ import 'package:edu_admin/screens/admin_home_page.dart';
 import 'package:edu_admin/screens/student_page.dart';
 // Placeholder imports for remaining pages
  import 'package:edu_admin/screens/subject_page.dart';
-// import 'package:edu_admin/screens/lessons_page.dart';
+import 'package:edu_admin/screens/notes_page.dart';
 // import 'package:edu_admin/screens/exams_page.dart';
 // import 'package:edu_admin/screens/assignments_page.dart';
 // import 'package:edu_admin/screens/results_page.dart';
@@ -60,7 +60,7 @@ class SideNavBar extends StatelessWidget {
                   _buildMenuItem(context, Icons.group, "Students", const StudentPage()),
                   _buildMenuItem(context, Icons.calendar_today, "Attendance", const AttendancePage()),
                   _buildMenuItem(context, Icons.book, "Subjects", const SubjectPage()),
-                  // _buildMenuItem(context, Icons.menu_book, "Lessons", const LessonsPage()),
+                  _buildMenuItem(context, Icons.menu_book, "Notes", const UploadNotesPage()),
                   // _buildMenuItem(context, Icons.edit, "Exams", const ExamsPage()),
                   // _buildMenuItem(context, Icons.assignment, "Assignments", const AssignmentsPage()),
                   // _buildMenuItem(context, Icons.emoji_events, "Results", const ResultsPage()),
