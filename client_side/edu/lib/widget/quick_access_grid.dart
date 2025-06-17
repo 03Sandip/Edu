@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:edu/quickaccess/attendance_page.dart';
 import 'package:edu/quickaccess/subject_page.dart';
 import 'package:edu/quickaccess/notes_page.dart';
 import 'package:edu/provider/user_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 const List<Map<String, dynamic>> quickAccessItems = [
   {"title": "Syllabus", "icon": Icons.menu_book, "color": Colors.teal},
@@ -24,6 +25,7 @@ class QuickAccessGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
     final semester = user.semester;
+    final roll = user.roll;
 
     return GridView.builder(
       padding: const EdgeInsets.all(16),
@@ -38,26 +40,31 @@ class QuickAccessGrid extends StatelessWidget {
 
         return GestureDetector(
           onTap: () {
-            if (item['title'] == 'Subjects') {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const SubjectPage()),
-              );
-            } else if (item['title'] == 'Notes') {
-              if (semester != null) {
+            switch (item['title']) {
+              case 'Subjects':
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const SubjectPage()),
+                );
+                break;
+              case 'Notes':
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (_) => StudentNotesPage(semester: semester),
                   ),
                 );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Semester not found")),
+                break;
+              case 'Attendance':
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => AttendanceViewPage(rollNumber: roll),
+                  ),
                 );
-              }
+                break;
+              // TODO: Add more pages (e.g., Marks, Fees) as needed
             }
-            // Add more conditions here for other pages if needed
           },
           child: Container(
             decoration: BoxDecoration(
@@ -71,7 +78,10 @@ class QuickAccessGrid extends StatelessWidget {
                 const SizedBox(height: 10),
                 Text(
                   item['title'],
-                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ],

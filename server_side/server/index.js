@@ -6,7 +6,8 @@ const path = require('path');
 const authRouter = require('./routers/auth');
 const studentRouter = require('./routers/student');
 const assignSubjectRouter = require('./routers/assignSubjects');
-const noteRouter = require('./routers/notes'); // ✅ Import notes router
+const noteRouter = require('./routers/notes');
+const attendanceRouter = require('./routers/attendance'); // ✅ NEW: Attendance router
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -22,7 +23,8 @@ app.use('/uploads/notes', express.static(path.join(__dirname, 'uploads/notes')))
 app.use('/api', authRouter);
 app.use('/api', studentRouter);
 app.use('/api', assignSubjectRouter);
-app.use('/api/notes', noteRouter); // ✅ Notes route
+app.use('/api/notes', noteRouter);
+app.use('/api/attendance', attendanceRouter); // ✅ NEW: Attendance routes
 
 // ✅ MongoDB Connection
 const DB = "mongodb+srv://sandip:OBmR4DOL3yMWJfGM@cluster0.vyuyuvf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
