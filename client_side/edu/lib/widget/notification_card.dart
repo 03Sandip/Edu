@@ -15,8 +15,8 @@ class NotificationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 246, // Decreased by 4 pixels from 250
-      padding: const EdgeInsets.all(12), // Reduced padding from 16 to 12
+      width: 246,
+      padding: const EdgeInsets.all(12),
       margin: const EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
         color: bgColor,
@@ -44,7 +44,7 @@ class NotificationCard extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6), // Fixed missing vertical value
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(8),
