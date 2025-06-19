@@ -34,9 +34,10 @@ Some features are incomplete or in progress. We are actively working to improve 
 ## 📌 To-Do
 
 - [ ] Complete attendance marking feature
-- [ ] Add Firebase/OTP auth (if needed)
+- [ ] Add OTP auth 
 - [ ] Finalize admin dashboard UI
 - [ ] Testing and deployment
+        and many more......
 
 ## 📁 Project Structure (High-Level)
 
