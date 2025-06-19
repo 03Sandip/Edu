@@ -9,7 +9,8 @@ const studentRouter = require('./routers/student');
 const assignSubjectRouter = require('./routers/assignSubjects');
 const noteRouter = require('./routers/notes');
 const attendanceRouter = require('./routers/attendance');
-const assignmentRouter = require('./routers/assignments'); // ✅ NEW: Assignment router
+const assignmentRouter = require('./routers/assignments');
+const notificationRouter = require('./routers/notification'); // ✅ Notification router
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -20,7 +21,7 @@ app.use(express.json());
 
 // ✅ Serve static files
 app.use('/uploads/notes', express.static(path.join(__dirname, 'uploads/notes')));
-app.use('/uploads/assignments', express.static(path.join(__dirname, 'uploads/assignments'))); // ✅ Serve uploaded assignments
+app.use('/uploads/assignments', express.static(path.join(__dirname, 'uploads/assignments')));
 
 // ✅ API Routes
 app.use('/api', authRouter);
@@ -28,7 +29,8 @@ app.use('/api', studentRouter);
 app.use('/api', assignSubjectRouter);
 app.use('/api/notes', noteRouter);
 app.use('/api/attendance', attendanceRouter);
-app.use('/api/assignments', assignmentRouter); // ✅ Assignments route
+app.use('/api/assignments', assignmentRouter);
+app.use('/api', notificationRouter); // ✅ Add notifications route
 
 // ✅ MongoDB Connection
 const DB = "mongodb+srv://sandip:OBmR4DOL3yMWJfGM@cluster0.vyuyuvf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";

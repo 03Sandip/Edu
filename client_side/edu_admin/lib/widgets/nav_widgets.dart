@@ -1,3 +1,4 @@
+import 'package:edu_admin/screens/notifications_page.dart';
 import 'package:flutter/material.dart';
 import 'package:edu_admin/screens/admin_home_page.dart';
 import 'package:edu_admin/screens/student_page.dart';
@@ -59,13 +60,16 @@ class SideNavBar extends StatelessWidget {
                   _buildMenuItem(context, Icons.calendar_today, "Attendance", const AttendancePage()),
                   _buildMenuItem(context, Icons.book, "Subjects", const SubjectPage()),
                   _buildMenuItem(context, Icons.menu_book, "Notes", const UploadNotesPage()),
-                  // _buildMenuItem(context, Icons.edit, "Exams", const ExamsPage()),
                   _buildMenuItem(context, Icons.assignment, "Assignments", const UploadAssignmentsPage()),
+                  _buildMenuItem(context, Icons.announcement, "Notifications", const NotificationsPage()),
+                   
+                  // _buildMenuItem(context, Icons.edit, "Exams", const ExamsPage()),
+                  
                   // _buildMenuItem(context, Icons.emoji_events, "Results", const ResultsPage()),
                    
                   // _buildMenuItem(context, Icons.event, "Events", const EventsPage()),
                   // _buildMenuItem(context, Icons.message, "Messages", const MessagesPage()),
-                  // _buildMenuItem(context, Icons.announcement, "Announcements", const AnnouncementsPage()),
+                  
                   const Divider(),
                   //_buildMenuItem(context, Icons.settings, "Settings", const SettingsPage()),
                   _buildMenuItem(context, Icons.logout, "Logout", const AdminDashboardPage()), // Replace with logout logic
