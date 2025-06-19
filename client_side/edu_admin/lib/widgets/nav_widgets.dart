@@ -1,14 +1,12 @@
-import 'package:edu_admin/screens/attendance_page.dart';
 import 'package:flutter/material.dart';
 import 'package:edu_admin/screens/admin_home_page.dart';
 import 'package:edu_admin/screens/student_page.dart';
-// Placeholder imports for remaining pages
- import 'package:edu_admin/screens/subject_page.dart';
+import 'package:edu_admin/screens/subject_page.dart';
 import 'package:edu_admin/screens/notes_page.dart';
+import 'package:edu_admin/screens/attendance_page.dart';
 // import 'package:edu_admin/screens/exams_page.dart';
-// import 'package:edu_admin/screens/assignments_page.dart';
+import 'package:edu_admin/screens/assignments_page.dart';
 // import 'package:edu_admin/screens/results_page.dart';
-// import 'package:edu_admin/screens/attendance_page.dart';
 // import 'package:edu_admin/screens/events_page.dart';
 // import 'package:edu_admin/screens/messages_page.dart';
 // import 'package:edu_admin/screens/announcements_page.dart';
@@ -62,7 +60,7 @@ class SideNavBar extends StatelessWidget {
                   _buildMenuItem(context, Icons.book, "Subjects", const SubjectPage()),
                   _buildMenuItem(context, Icons.menu_book, "Notes", const UploadNotesPage()),
                   // _buildMenuItem(context, Icons.edit, "Exams", const ExamsPage()),
-                  // _buildMenuItem(context, Icons.assignment, "Assignments", const AssignmentsPage()),
+                  _buildMenuItem(context, Icons.assignment, "Assignments", const UploadAssignmentsPage()),
                   // _buildMenuItem(context, Icons.emoji_events, "Results", const ResultsPage()),
                    
                   // _buildMenuItem(context, Icons.event, "Events", const EventsPage()),
