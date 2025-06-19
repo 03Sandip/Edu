@@ -1,3 +1,4 @@
+import 'package:edu/quickaccess/assigment.dart';
 import 'package:edu/quickaccess/attendance_page.dart';
 import 'package:edu/quickaccess/subject_page.dart';
 import 'package:edu/quickaccess/notes_page.dart';
@@ -8,7 +9,7 @@ import 'package:provider/provider.dart';
 const List<Map<String, dynamic>> quickAccessItems = [
   {"title": "Syllabus", "icon": Icons.menu_book, "color": Colors.teal},
   {"title": "Notes", "icon": Icons.note, "color": Colors.pinkAccent},
-  {"title": "Assigment", "icon": Icons.book, "color": Colors.purple},
+  {"title": "Assignment", "icon": Icons.book, "color": Colors.purple},
   {"title": "Routine", "icon": Icons.schedule, "color": Colors.orange},
   {"title": "Attendance", "icon": Icons.check_circle, "color": Colors.blue},
   {"title": "Lab", "icon": Icons.computer, "color": Colors.grey},
@@ -63,6 +64,22 @@ class QuickAccessGrid extends StatelessWidget {
                   ),
                 );
                 break;
+              case 'Assigments':
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => AttendanceViewPage(rollNumber: roll),
+                  ),
+                );
+                break;
+                case 'Assignment':
+           Navigator.push(
+         context,
+          MaterialPageRoute(
+        builder: (_) => const StudentAssignmentsPage(),
+      ),
+    );
+    break;
               // TODO: Add more pages (e.g., Marks, Fees) as needed
             }
           },

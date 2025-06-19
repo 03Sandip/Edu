@@ -7,22 +7,24 @@ import 'package:http/http.dart' as http;
 import '../../utils/constants.dart';
 import '../../widgets/nav_widgets.dart';
 
-class UploadNotesPage extends StatefulWidget {
-  const UploadNotesPage({super.key});
+class UploadAssignmentsPage extends StatefulWidget {
+  const UploadAssignmentsPage({super.key});
 
   @override
-  State<UploadNotesPage> createState() => _UploadNotesPageState();
+  State<UploadAssignmentsPage> createState() => _UploadAssignmentsPageState();
 }
 
-class _UploadNotesPageState extends State<UploadNotesPage> {
+class _UploadAssignmentsPageState extends State<UploadAssignmentsPage> {
   String? selectedSemester;
   String? selectedSubject;
+  String? selectedSection;
   Uint8List? fileBytes;
   String? fileName;
   bool isUploading = false;
-  List<dynamic> uploadedNotes = [];
+  List<dynamic> uploadedAssignments = [];
 
-  final semesters = DropdownConstants.semesters; 
+  final semesters = DropdownConstants.semesters;
+  final sections = DropdownConstants.sections;
   List<String> subjects = [];
 
   Future<void> fetchSubjects(String semester) async {
@@ -50,20 +52,20 @@ class _UploadNotesPageState extends State<UploadNotesPage> {
     }
   }
 
-  Future<void> fetchUploadedNotes() async {
-    if (selectedSemester == null) return;
+  Future<void> fetchUploadedAssignments() async {
+    if (selectedSemester == null || selectedSection == null) return;
     try {
-      final res = await http.get(Uri.parse('${Constants.uri}/notes?semester=$selectedSemester'));
+      final res = await http.get(Uri.parse('${Constants.uri}/assignments?semester=$selectedSemester&section=$selectedSection'));
       if (res.statusCode == 200) {
         final data = json.decode(res.body);
         setState(() {
-          uploadedNotes = data['notes'] ?? [];
+          uploadedAssignments = data;
         });
       } else {
-        _showMessage("Failed to load uploaded notes");
+        _showMessage("Failed to load uploaded assignments");
       }
     } catch (e) {
-      _showMessage("Failed to load uploaded notes");
+      _showMessage("Failed to load uploaded assignments");
     }
   }
 
@@ -88,8 +90,8 @@ class _UploadNotesPageState extends State<UploadNotesPage> {
     }
   }
 
-  Future<void> uploadNote() async {
-    if (selectedSemester == null || selectedSubject == null || fileBytes == null || fileName == null) {
+  Future<void> uploadAssignment() async {
+    if (selectedSemester == null || selectedSection == null || selectedSubject == null || fileBytes == null || fileName == null) {
       _showMessage("All fields are required");
       return;
     }
@@ -99,29 +101,30 @@ class _UploadNotesPageState extends State<UploadNotesPage> {
     try {
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('${Constants.uri}/notes'),
+        Uri.parse('${Constants.uri}/assignments/upload'),
       );
 
       request.fields['semester'] = selectedSemester!;
       request.fields['subject'] = selectedSubject!;
+      request.fields['section'] = selectedSection!;
 
       request.files.add(http.MultipartFile.fromBytes(
-        'noteFile',
+        'file',
         fileBytes!,
         filename: fileName!,
       ));
 
       final response = await request.send();
 
-      if (response.statusCode == 201) {
-        _showMessage("Note uploaded successfully");
+      if (response.statusCode == 200) {
+        _showMessage("Assignment uploaded successfully");
         setState(() {
           fileBytes = null;
           fileName = null;
         });
-        fetchUploadedNotes();
+        fetchUploadedAssignments();
       } else {
-        _showMessage("Failed to upload note");
+        _showMessage("Failed to upload assignment");
       }
     } catch (e) {
       _showMessage("Upload error: $e");
@@ -130,14 +133,14 @@ class _UploadNotesPageState extends State<UploadNotesPage> {
     }
   }
 
-  Future<void> deleteNote(String noteId) async {
+  Future<void> deleteAssignment(String assignmentId) async {
     try {
-      final res = await http.delete(Uri.parse('${Constants.uri}/notes/$noteId'));
+      final res = await http.delete(Uri.parse('${Constants.uri}/assignments/$assignmentId'));
       if (res.statusCode == 200) {
-        _showMessage("Note deleted successfully");
-        fetchUploadedNotes();
+        _showMessage("Assignment deleted successfully");
+        fetchUploadedAssignments();
       } else {
-        _showMessage("Failed to delete note");
+        _showMessage("Failed to delete assignment");
       }
     } catch (e) {
       _showMessage("Delete error: $e");
@@ -153,14 +156,14 @@ class _UploadNotesPageState extends State<UploadNotesPage> {
     return Scaffold(
       body: Row(
         children: [
-          const SideNavBar(selectedItem: 'Notes'),
+          const SideNavBar(selectedItem: 'Assignments'),
           Expanded(
             child: Column(
               children: [
                 const Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Text(
-                    "Notes",
+                    "Assignments",
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -182,10 +185,32 @@ class _UploadNotesPageState extends State<UploadNotesPage> {
                                   return DropdownMenuItem(value: sem, child: Text(sem));
                                 }).toList(),
                                 onChanged: (value) {
-                                  setState(() => selectedSemester = value);
+                                  setState(() {
+                                    selectedSemester = value;
+                                    subjects = [];
+                                    selectedSubject = null;
+                                  });
                                   if (value != null) {
                                     fetchSubjects(value);
-                                    fetchUploadedNotes();
+                                    if (selectedSection != null) {
+                                      fetchUploadedAssignments();
+                                    }
+                                  }
+                                },
+                              ),
+                              const SizedBox(height: 16),
+                              DropdownButtonFormField<String>(
+                                value: selectedSection,
+                                hint: const Text("Select Section"),
+                                items: sections.map((sec) {
+                                  return DropdownMenuItem(value: sec, child: Text(sec));
+                                }).toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedSection = value;
+                                  });
+                                  if (value != null && selectedSemester != null) {
+                                    fetchUploadedAssignments();
                                   }
                                 },
                               ),
@@ -218,7 +243,7 @@ class _UploadNotesPageState extends State<UploadNotesPage> {
                                 ),
                               const Spacer(),
                               ElevatedButton(
-                                onPressed: isUploading ? null : uploadNote,
+                                onPressed: isUploading ? null : uploadAssignment,
                                 style: ElevatedButton.styleFrom(
                                   padding: const EdgeInsets.symmetric(vertical: 16),
                                   backgroundColor: Colors.deepPurple,
@@ -235,7 +260,7 @@ class _UploadNotesPageState extends State<UploadNotesPage> {
                         ),
                       ),
 
-                      // Uploaded Notes List (Right Section)
+                      // Uploaded Assignments List (Right Section)
                       Flexible(
                         flex: 2,
                         child: Container(
@@ -245,27 +270,27 @@ class _UploadNotesPageState extends State<UploadNotesPage> {
                               left: BorderSide(color: Colors.grey.shade300),
                             ),
                           ),
-                          child: uploadedNotes.isEmpty
+                          child: uploadedAssignments.isEmpty
                               ? const Center(child: Text("No uploaded files"))
                               : ListView.builder(
-                                  itemCount: uploadedNotes.length,
+                                  itemCount: uploadedAssignments.length,
                                   itemBuilder: (context, index) {
-                                    final note = uploadedNotes[index];
+                                    final assignment = uploadedAssignments[index];
                                     return Card(
                                       elevation: 2,
                                       margin: const EdgeInsets.symmetric(vertical: 6),
                                       child: ListTile(
                                         leading: const Icon(Icons.description, color: Colors.deepPurple),
-                                        title: Text(note['subject'] ?? 'Unknown Subject'),
-                                        subtitle: Text(note['filePath']?.split('/')?.last ?? ''),
+                                        title: Text(assignment['subject'] ?? 'Unknown Subject'),
+                                        subtitle: Text(assignment['fileUrl']?.split('/')?.last ?? ''),
                                         trailing: IconButton(
                                           icon: const Icon(Icons.delete, color: Colors.red),
                                           onPressed: () async {
                                             final confirm = await showDialog<bool>(
                                               context: context,
                                               builder: (ctx) => AlertDialog(
-                                                title: const Text("Delete Note"),
-                                                content: const Text("Are you sure you want to delete this note?"),
+                                                title: const Text("Delete Assignment"),
+                                                content: const Text("Are you sure you want to delete this assignment?"),
                                                 actions: [
                                                   TextButton(
                                                     onPressed: () => Navigator.pop(ctx, false),
@@ -279,7 +304,7 @@ class _UploadNotesPageState extends State<UploadNotesPage> {
                                               ),
                                             );
                                             if (confirm == true) {
-                                              await deleteNote(note['_id']);
+                                              await deleteAssignment(assignment['_id']);
                                             }
                                           },
                                         ),
