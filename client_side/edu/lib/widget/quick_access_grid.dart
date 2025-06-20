@@ -1,5 +1,6 @@
 import 'package:edu/quickaccess/assigment.dart';
 import 'package:edu/quickaccess/attendance_page.dart';
+import 'package:edu/quickaccess/marksheet_page.dart';
 import 'package:edu/quickaccess/subject_page.dart';
 import 'package:edu/quickaccess/notes_page.dart';
 import 'package:edu/provider/user_provider.dart';
@@ -80,6 +81,15 @@ class QuickAccessGrid extends StatelessWidget {
       ),
     );
     break;
+    case 'Marks':
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => const MarksheetPage(),
+    ),
+  );
+  break;
+
               // TODO: Add more pages (e.g., Marks, Fees) as needed
             }
           },

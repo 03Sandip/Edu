@@ -3,6 +3,19 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
 
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// ✅ Middleware
+app.use(cors());
+app.use(express.json());
+
+// ✅ Serve static files for uploads
+app.use('/uploads/notes', express.static(path.join(__dirname, 'uploads/notes')));
+app.use('/uploads/assignments', express.static(path.join(__dirname, 'uploads/assignments')));
+app.use('/uploads/marksheets', express.static(path.join(__dirname, 'uploads/marksheets')));
+app.use('/uploads/notifications', express.static(path.join(__dirname, 'uploads/notifications'))); // ✅ added
+
 // ✅ Route Imports
 const authRouter = require('./routers/auth');
 const studentRouter = require('./routers/student');
@@ -10,18 +23,8 @@ const assignSubjectRouter = require('./routers/assignSubjects');
 const noteRouter = require('./routers/notes');
 const attendanceRouter = require('./routers/attendance');
 const assignmentRouter = require('./routers/assignments');
-const notificationRouter = require('./routers/notification'); // ✅ Notification router
-
-const PORT = process.env.PORT || 3000;
-const app = express();
-
-// ✅ Middleware
-app.use(cors());
-app.use(express.json());
-
-// ✅ Serve static files
-app.use('/uploads/notes', express.static(path.join(__dirname, 'uploads/notes')));
-app.use('/uploads/assignments', express.static(path.join(__dirname, 'uploads/assignments')));
+const notificationRouter = require('./routers/notification');
+const marksheetRouter = require('./routers/marksheet');
 
 // ✅ API Routes
 app.use('/api', authRouter);
@@ -30,7 +33,8 @@ app.use('/api', assignSubjectRouter);
 app.use('/api/notes', noteRouter);
 app.use('/api/attendance', attendanceRouter);
 app.use('/api/assignments', assignmentRouter);
-app.use('/api', notificationRouter); // ✅ Add notifications route
+app.use('/api', notificationRouter);
+app.use('/api', marksheetRouter);
 
 // ✅ MongoDB Connection
 const DB = "mongodb+srv://sandip:OBmR4DOL3yMWJfGM@cluster0.vyuyuvf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
