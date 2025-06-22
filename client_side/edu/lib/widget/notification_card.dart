@@ -4,14 +4,16 @@ import 'package:url_launcher/url_launcher.dart';
 class NotificationCard extends StatelessWidget {
   final String title;
   final String subtitle;
-  final Color bgColor;
-  final String? link; // Optional link
+  final String? imageUrl;
+  final String? link;
+  final Color backgroundColor;
 
   const NotificationCard({
     Key? key,
     required this.title,
     required this.subtitle,
-    required this.bgColor,
+    required this.backgroundColor,
+    this.imageUrl,
     this.link,
   }) : super(key: key);
 
@@ -60,70 +62,93 @@ class NotificationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 246,
-      height: 180,
-      margin: const EdgeInsets.only(right: 12),
+      width: 270,
+      height: 160,
+      margin: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(16),
+        gradient: LinearGradient(
+  colors: [
+    backgroundColor.withAlpha(222),
+    backgroundColor.withAlpha(1),
+  ],
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: const [
           BoxShadow(
-            color: Colors.black12,
+            color: Colors.black26,
             blurRadius: 6,
-            offset: Offset(0, 3),
+            offset: Offset(0, 4),
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 15,
-                fontWeight: FontWeight.w700,
-              ),
+      child: Stack(
+        children: [
+          // Bottom-left image
+          Positioned(
+            bottom: 16,
+            left: 16,
+            child: Image.asset(
+              imageUrl ?? 'assets/images/notification.png',
+              width: 60,
+              height: 60,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return const Icon(Icons.image_not_supported, color: Colors.white);
+              },
             ),
-            const SizedBox(height: 8),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Text(
-                  subtitle,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
                   style: const TextStyle(
-                    color: Colors.white70,
-                    fontSize: 12.5,
-                    height: 1.4,
+                    fontSize: 21,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            Align(
-              alignment: Alignment.centerRight,
-              child: GestureDetector(
-                onTap: () => _showDetails(context),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Text(
-                    "View",
-                    style: TextStyle(
-                      color: Colors.black87,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12.5,
+                const SizedBox(height: 1),
+                // Expanded(
+                //   child: Text(
+                //     subtitle,
+                //     style: const TextStyle(
+                //       fontSize: 10,
+                //       color: Colors.white70,
+                //       height: 1,
+                //     ),
+                //   ),
+                // ),
+                const SizedBox(height: 6),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: GestureDetector(
+                    onTap: () => _showDetails(context),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Text(
+                        "View",
+                        style: TextStyle(
+                          color: Colors.black87,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12.5,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

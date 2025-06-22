@@ -1,36 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Add this import
+import 'package:intl/intl.dart';
 
 class StudentInfoCard extends StatelessWidget {
   final String name;
   final String roll;
 
-  StudentInfoCard({
+  const StudentInfoCard({
+    Key? key,
     required this.name,
     required this.roll,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
-    final formattedDate = DateFormat('EEEE, d MMMM').format(now); // e.g. Sunday, 16 June
-    final formattedTime = DateFormat('hh:mm a').format(now); // e.g. 11:00 AM
+    final formattedDate = DateFormat('EEEE, d MMMM').format(now);
+    final formattedTime = DateFormat('hh:mm a').format(now);
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       padding: const EdgeInsets.all(20),
       height: 180,
       decoration: BoxDecoration(
-        color: const Color(0xFF198CFF),
+        gradient: const LinearGradient(
+          colors: [
+            Color(0xFF0062E3),
+            Color.fromARGB(255, 127, 185, 243),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
         borderRadius: BorderRadius.circular(20),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 8,
+            offset: Offset(0, 4),
+          ),
+        ],
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // LEFT SIDE: Student Info
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   name,
@@ -42,32 +58,59 @@ class StudentInfoCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  roll,
+                  "Roll: $roll",
                   style: const TextStyle(
                     color: Colors.white70,
                     fontSize: 16,
                   ),
                 ),
                 const SizedBox(height: 12),
-                Container(height: 1, color: Colors.white),
+                Container(height: 1, color: Colors.white24),
                 const SizedBox(height: 12),
-                Text(
-                  formattedDate,
-                  style: const TextStyle(color: Colors.white, fontSize: 15),
+                Row(
+                  children: [
+                    const Icon(Icons.calendar_today, size: 16, color: Colors.white70),
+                    const SizedBox(width: 6),
+                    Text(
+                      formattedDate,
+                      style: const TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  formattedTime,
-                  style: const TextStyle(color: Colors.white, fontSize: 15),
+                Row(
+                  children: [
+                    const Icon(Icons.access_time, size: 16, color: Colors.white70),
+                    const SizedBox(width: 6),
+                    Text(
+                      formattedTime,
+                      style: const TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
-          const SizedBox(width: 16),
-          const CircleAvatar(
-            radius: 60,
-            backgroundImage: AssetImage('assets/images/profile.png'),
-            backgroundColor: Colors.white,
+
+          // RIGHT SIDE: Profile Image
+          Container(
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.white, width: 3),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 6,
+                  offset: Offset(0, 3),
+                ),
+              ],
+              image: const DecorationImage(
+                image: AssetImage('assets/images/profile.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
         ],
       ),

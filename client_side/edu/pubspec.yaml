@@ -27,3 +27,4 @@ flutter:
   assets:
     - assets/images/auth.jpg
     - assets/images/profile.png
+    - assets/images/notification.png
