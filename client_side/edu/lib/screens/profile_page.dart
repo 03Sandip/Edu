@@ -4,6 +4,7 @@ import 'package:edu/screens/UserDetails_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
+
   void signOutUser(BuildContext context) {
     AuthService().signOutUser(context);
   }
@@ -11,7 +12,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF5F6FA),
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -21,53 +22,48 @@ class ProfilePage extends StatelessWidget {
         backgroundColor: Colors.blue.shade700,
         foregroundColor: Colors.white,
         centerTitle: true,
+        elevation: 0,
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             children: [
+              // Main List
               Expanded(
                 child: ListView(
                   children: [
-                    ListTile(
-                      leading: const Icon(Icons.person_outline),
-                      title: const Text("My Profile"),
-                      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                    buildProfileTile(
+                      context,
+                      icon: Icons.person_outline,
+                      title: "My Profile",
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => const UserDetailsPage(),
-                          ),
+                          MaterialPageRoute(builder: (_) => const UserDetailsPage()),
                         );
                       },
                     ),
-                    const Divider(),
-                    const ListTile(
-                      leading: Icon(Icons.notifications_none),
-                      title: Text("Notification"),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                    buildProfileTile(
+                      context,
+                      icon: Icons.notifications_none,
+                      title: "Notification",
                     ),
-                    const Divider(),
-                    const ListTile(
-                      leading: Icon(Icons.settings_outlined),
-                      title: Text("Setting"),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                    buildProfileTile(
+                      context,
+                      icon: Icons.settings_outlined,
+                      title: "Setting",
                     ),
-                    const Divider(),
-                    const ListTile(
-                      leading: Icon(Icons.payment_outlined),
-                      title: Text("Payment"),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                    buildProfileTile(
+                      context,
+                      icon: Icons.payment_outlined,
+                      title: "Payment",
                     ),
-                    const Divider(),
                   ],
                 ),
               ),
 
               // Logout Button
-              const SizedBox(height: 10),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
@@ -90,6 +86,25 @@ class ProfilePage extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget buildProfileTile(BuildContext context,
+      {required IconData icon, required String title, VoidCallback? onTap}) {
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      elevation: 2,
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        leading: Icon(icon, color: Colors.blue.shade700, size: 28),
+        title: Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+        ),
+        trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+        onTap: onTap,
       ),
     );
   }

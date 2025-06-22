@@ -15,8 +15,7 @@ class AdminDashboardPage extends StatefulWidget {
 }
 
 class _AdminDashboardPageState extends State<AdminDashboardPage> {
-  String selectedSemester = '1st Sem';
-  final List<String> semesters = ['1st Sem', '2nd Sem', '3rd Sem', '4th Sem'];
+  
   int studentCount = 0;
   bool isLoading = true;
 
@@ -82,17 +81,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                                 ),
                               ),
                               const SizedBox(width: 20),
-                              DropdownButton<String>(
-                                value: selectedSemester,
-                                items: semesters
-                                    .map((sem) => DropdownMenuItem(value: sem, child: Text(sem)))
-                                    .toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedSemester = value!;
-                                  });
-                                },
-                              ),
+                              
                             ],
                           ),
                           Row(

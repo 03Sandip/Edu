@@ -15,6 +15,20 @@ class StudentNotificationsPage extends StatefulWidget {
 class _StudentNotificationsPageState extends State<StudentNotificationsPage> {
   List<dynamic> notifications = [];
 
+  // List of background colors to cycle through
+  final List<Color> cardColors = [
+    Colors.teal,
+    Colors.deepPurple,
+    Colors.deepOrange,
+    Colors.indigo,
+    Colors.pink,
+    Colors.green,
+    Colors.brown,
+    Colors.blueGrey,
+    Colors.cyan,
+    Colors.amber,
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -28,13 +42,16 @@ class _StudentNotificationsPageState extends State<StudentNotificationsPage> {
       final section = prefs.getString('section') ?? '';
       final roll = prefs.getString('roll') ?? '';
 
-      final res = await http.get(Uri.parse('${Constants.uri}/api/notifications?semester=$semester&section=$section&userId=$roll'));
+      final res = await http.get(Uri.parse(
+        '${Constants.uri}/api/notifications?semester=$semester&section=$section&userId=$roll',
+      ));
+
       if (res.statusCode == 200) {
         setState(() => notifications = jsonDecode(res.body));
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error loading notifications")),
+        const SnackBar(content: Text("Error loading notifications")),
       );
     }
   }
@@ -50,12 +67,16 @@ class _StudentNotificationsPageState extends State<StudentNotificationsPage> {
               itemCount: notifications.length,
               itemBuilder: (context, index) {
                 final item = notifications[index];
+                final bgColor = cardColors[index % cardColors.length]; // 🔁 Rotate colors
+
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: NotificationCard(
                     title: item['title'] ?? '',
                     subtitle: item['message'] ?? '',
-                    bgColor: Colors.indigoAccent,
+                    imageUrl: 'assets/images/notification.png',
+                    link: item['link'],
+                    backgroundColor: bgColor, // ✅ Add backgroundColor
                   ),
                 );
               },

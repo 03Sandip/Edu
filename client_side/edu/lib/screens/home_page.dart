@@ -60,7 +60,6 @@ class _HomePageState extends State<HomePage> {
       debugPrint('🔍 Request URI: $uri');
 
       final res = await http.get(uri);
-
       debugPrint('📦 Status Code: ${res.statusCode}');
       debugPrint('📨 Response Body: ${res.body}');
 
@@ -130,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                 roll: widget.roll,
               ),
               SizedBox(
-                height: 120,
+                height: 160,
                 child: notifications.isEmpty
                     ? const Center(child: Text("No notifications found"))
                     : ListView.builder(
@@ -139,10 +138,15 @@ class _HomePageState extends State<HomePage> {
                         itemCount: notifications.length,
                         itemBuilder: (context, index) {
                           final notif = notifications[index];
-                          return NotificationCard(
-                            title: notif['title'] ?? 'No Title',
-                            subtitle: notif['message'] ?? 'No Message',
-                            bgColor: getRandomColor(index),
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: NotificationCard(
+                              title: notif['title'] ?? 'No Title',
+                              subtitle: notif['message'] ?? 'No Message',
+                              imageUrl: 'assets/images/notification.png',
+                              backgroundColor: getRandomColor(index), // ✅ Rotating color
+                              link: notif['link'],
+                            ),
                           );
                         },
                       ),
