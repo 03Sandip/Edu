@@ -1,4 +1,4 @@
-# edu_admin
+# adu_admin
 
 A new Flutter project.
 

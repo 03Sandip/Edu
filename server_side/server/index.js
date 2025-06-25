@@ -14,7 +14,8 @@ app.use(express.json());
 app.use('/uploads/notes', express.static(path.join(__dirname, 'uploads/notes')));
 app.use('/uploads/assignments', express.static(path.join(__dirname, 'uploads/assignments')));
 app.use('/uploads/marksheets', express.static(path.join(__dirname, 'uploads/marksheets')));
-app.use('/uploads/notifications', express.static(path.join(__dirname, 'uploads/notifications'))); // ✅ added
+app.use('/uploads/notifications', express.static(path.join(__dirname, 'uploads/notifications')));
+app.use('/uploads/library', express.static(path.join(__dirname, 'uploads/library'))); // ✅ Library PDFs
 
 // ✅ Route Imports
 const authRouter = require('./routers/auth');
@@ -25,6 +26,7 @@ const attendanceRouter = require('./routers/attendance');
 const assignmentRouter = require('./routers/assignments');
 const notificationRouter = require('./routers/notification');
 const marksheetRouter = require('./routers/marksheet');
+const libraryRouter = require('./routers/library'); // ✅ Import library route
 
 // ✅ API Routes
 app.use('/api', authRouter);
@@ -35,6 +37,7 @@ app.use('/api/attendance', attendanceRouter);
 app.use('/api/assignments', assignmentRouter);
 app.use('/api', notificationRouter);
 app.use('/api', marksheetRouter);
+app.use('/api/library', libraryRouter); 
 
 // ✅ MongoDB Connection
 const DB = "mongodb+srv://sandip:OBmR4DOL3yMWJfGM@cluster0.vyuyuvf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";

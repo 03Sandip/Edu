@@ -1,3 +1,4 @@
+import 'package:edu/quickaccess/library.dart';
 import 'package:flutter/material.dart';
 import 'package:edu/quickaccess/assigment.dart';
 import 'package:edu/quickaccess/attendance_page.dart';
@@ -11,7 +12,7 @@ const List<Map<String, dynamic>> quickAccessItems = [
   {"title": "Syllabus", "icon": Icons.menu_book, "colors": [Colors.teal, Colors.tealAccent]},
   {"title": "Notes", "icon": Icons.note, "colors": [Colors.pink, Colors.pinkAccent]},
   {"title": "Assignment", "icon": Icons.book, "colors": [Colors.deepPurple, Colors.purpleAccent]},
-  {"title": "Routine", "icon": Icons.schedule, "colors": [Colors.orange, Colors.deepOrangeAccent]},
+  //{"title": "Routine", "icon": Icons.schedule, "colors": [Colors.orange, Colors.deepOrangeAccent]},
   {"title": "Attendance", "icon": Icons.check_circle, "colors": [Colors.blue, Colors.lightBlueAccent]},
   {"title": "Lab", "icon": Icons.computer, "colors": [Colors.grey, Colors.blueGrey]},
   {"title": "Marks", "icon": Icons.score, "colors": [Colors.green, Colors.lightGreen]},
@@ -40,10 +41,12 @@ class QuickAccessGrid extends StatelessWidget {
       case 'Marks':
         Navigator.push(context, MaterialPageRoute(builder: (_) => const MarksheetPage()));
         break;
+      case 'Library':
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const StudentLibraryPage()));
+        break;
       // TODO: Add more pages (e.g., Library, Fees) here
     }
   }
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;

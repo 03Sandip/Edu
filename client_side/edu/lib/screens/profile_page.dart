@@ -1,12 +1,41 @@
 import 'package:edu/services/auth_services.dart';
+import 'package:edu/widget/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:edu/screens/UserDetails_page.dart';
 
-class ProfilePage extends StatelessWidget {
+import 'package:edu/screens/eduai_page.dart';
+import 'package:edu/screens/home_page.dart';
+
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  int _selectedIndex = 1;
 
   void signOutUser(BuildContext context) {
     AuthService().signOutUser(context);
+  }
+
+  void _onBottomNavTap(int index) {
+    setState(() => _selectedIndex = index);
+
+    if (index == 0) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const HomePage(name: '', roll: ''), // Replace with actual values
+        ),
+      );
+    } else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const EduAIPage()),
+      );
+    }
   }
 
   @override
@@ -14,15 +43,12 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F6FA),
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
         title: const Text("Profile"),
         backgroundColor: Colors.blue.shade700,
         foregroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
+        automaticallyImplyLeading: false, // 🚫 Removes the back button
       ),
       body: SafeArea(
         child: Padding(
@@ -43,11 +69,6 @@ class ProfilePage extends StatelessWidget {
                           MaterialPageRoute(builder: (_) => const UserDetailsPage()),
                         );
                       },
-                    ),
-                    buildProfileTile(
-                      context,
-                      icon: Icons.notifications_none,
-                      title: "Notification",
                     ),
                     buildProfileTile(
                       context,
@@ -86,6 +107,12 @@ class ProfilePage extends StatelessWidget {
             ],
           ),
         ),
+      ),
+
+      // Floating Bottom Navigation
+      bottomNavigationBar: CustomBottomNavBar(
+        selectedIndex: _selectedIndex,
+        onTap: _onBottomNavTap,
       ),
     );
   }
