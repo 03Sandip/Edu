@@ -63,12 +63,11 @@ Many features are being improved, and new functionalities are on the way. Stay t
 
 ## 📁 Project Structure (High-Level)
 
-Edu/
-├── client_side/ # Flutter apps (Student & Admin)
-├── server_side/ # Backend APIs (Node.js + Express)
-├── uploads/ # Uploaded files (notes, assignments, etc.)
-├── .env # Environment variables (not committed)
-└── dev_tools/ # Python helper scripts
+📦 **Edu**  
+├── 📁 **client_side/** — *Flutter apps (Student & Admin)*  
+├── 📁 **server_side/** — *Backend APIs (Node.js + Express)*  
+├── 📁 **uploads/** — *Uploaded files (notes, assignments, etc.)*  
+├── 📁 **dev_tools/** — *Python helper scripts*  
 
 
 ---
@@ -93,4 +92,3 @@ It is located in `dev_tools/` and is **not part of the main Edu app functionalit
 ## 🔗 GitHub
 
 [👉 03Sandip/Edu on GitHub](https://github.com/03Sandip/Edu)
-
