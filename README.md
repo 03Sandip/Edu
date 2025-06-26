@@ -1,57 +1,96 @@
-# Edu - Student & Admin App 📚
+# 📚 Edu – Student & Admin App
 
-This is a full-stack application built using **Flutter** for both the **student** and **admin** panels, and **Node.js + Express + MongoDB** for the backend.
+![Status](https://img.shields.io/badge/status-in%20development-orange)
+![Made with Flutter](https://img.shields.io/badge/frontend-flutter-blue)
+![Made with Node.js](https://img.shields.io/badge/backend-node.js-green)
+![Database](https://img.shields.io/badge/database-mongodb-brightgreen)
 
-## 🔧 Current Status
-
-🚧 **This app is still under development.**  
-Some features are incomplete or in progress. We are actively working to improve and complete the functionality.
-
-## 🎯 Project Overview
-
-- **Student App** (Flutter):
-  - View results, notes, attendance
-  - Notifications and announcements
-  - Student profile and semester-specific info
-
-- **Admin Panel** (Flutter Web):
-  - Manage students
-  - Upload results and notes
-  - Mark attendance
-  - Post announcements
-
-- **Backend** (Node.js + Express):
-  - REST APIs for user registration, login, attendance, and more
-  - MongoDB as the primary database
-
-## 🛠 Tech Stack
-
-- **Frontend (Student & Admin):** Flutter
-- **Backend:** Node.js, Express.js
-- **Database:** MongoDB
-- **DevOps:** Git, Docker, Jenkins (in progress)
-
-## 📌 To-Do
-
-- [ ] Complete attendance marking feature
-- [ ] Add OTP auth 
-- [ ] Finalize admin dashboard UI
-- [ ] Testing and deployment
-        and many more......
-
-## 📁 Project Structure (High-Level)
-
-## 🤝 Contributing
-
-Currently, this is a personal/academic project. Contributions and suggestions are welcome after the first stable release.
-
-## 📢 Disclaimer
-
-This is a work-in-progress project for educational and development purposes.  
-Please don't consider it production-ready yet.
+Edu is a full-stack academic application designed for both **students** and **administrators**, built using **Flutter** for the front end and **Node.js + Express + MongoDB** for the back end.
 
 ---
 
-### 🔗 GitHub: [03Sandip/Edu](https://github.com/03Sandip/Edu)
+## 🚧 Current Status
 
+> **In Progress:** This app is currently under active development.  
+Many features are being improved, and new functionalities are on the way. Stay tuned!
+
+---
+
+## 🎯 Project Overview
+
+### 👨‍🎓 Student App (Flutter)
+- 📖 View results, notes, and subject-wise attendance
+- 🔔 Receive notifications and announcements
+- 🧑‍💼 Access student profile and semester-specific data
+
+### 🧑‍💼 Admin Panel (Flutter Web)
+- 👥 Manage student records
+- 📑 Upload results, notes, and assignments
+- 📆 Mark and manage attendance
+- 📢 Post announcements and notifications
+- 📚 Upload research papers and books (Library feature)
+
+### 🌐 Backend (Node.js + Express)
+- 🔐 User authentication & session management
+- 🧾 RESTful APIs for all app features
+- ☁️ MongoDB as the database
+
+---
+
+## 🛠 Tech Stack
+
+| Layer         | Technology             |
+|---------------|------------------------|
+| Frontend      | Flutter (Mobile & Web) |
+| Backend       | Node.js, Express.js    |
+| Database      | MongoDB (Atlas)        |
+| DevOps (WIP)  | Git, Docker, Jenkins   |
+
+---
+
+## ✅ Features (Implemented & Upcoming)
+
+- ✅ Login/Register (Student & Admin)
+- ✅ Notes & Assignment Uploads
+- ✅ Notification System
+- ✅ Library (Books & Research Papers)
+- ✅ Marksheet Upload & View
+- 🕒 OTP Authentication *(Upcoming)*
+- 🧠 AI Integration *(Planned)*
+- 🧪 Testing & Deployment *(WIP)*
+
+---
+
+## 📁 Project Structure (High-Level)
+
+Edu/
+├── client_side/ # Flutter apps (Student & Admin)
+├── server_side/ # Backend APIs (Node.js + Express)
+├── uploads/ # Uploaded files (notes, assignments, etc.)
+├── .env # Environment variables (not committed)
+└── dev_tools/ # Python helper scripts
+
+
+---
+
+## 🤝 Contributing
+
+This is currently a personal/academic project.  
+Contributions are welcome once the first stable release is out.
+
+---
+
+## 📢 Disclaimer
+
+This repository is for **educational and development purposes only**.  
+It is not production-ready, and many features are still in progress.
+
+> ⚠️ **Note:** A Python script used for generating files during development is included in the repository.  
+It is located in `dev_tools/` and is **not part of the main Edu app functionality**.
+
+---
+
+## 🔗 GitHub
+
+[👉 03Sandip/Edu on GitHub](https://github.com/03Sandip/Edu)
 
