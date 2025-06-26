@@ -1,3 +1,5 @@
+require('dotenv').config(); // ✅ Load .env variables at the top
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -39,10 +41,10 @@ app.use('/api', notificationRouter);
 app.use('/api', marksheetRouter);
 app.use('/api/library', libraryRouter); 
 
-// ✅ MongoDB Connection
-const DB = "mongodb+srv://sandip:OBmR4DOL3yMWJfGM@cluster0.vyuyuvf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+// ✅ MongoDB Connection using .env variable
+const DB = process.env.MONGODB_URI;
 
-mongoose.connect(DB)
+mongoose.connect(DB, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("✅ MongoDB connected successfully"))
   .catch((error) => console.error("❌ MongoDB connection error:", error));
 
