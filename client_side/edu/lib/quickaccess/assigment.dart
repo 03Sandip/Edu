@@ -3,6 +3,7 @@ import 'package:edu/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../utils/constants.dart';
 
@@ -22,16 +23,34 @@ class _StudentAssignmentsPageState extends State<StudentAssignmentsPage> {
   bool isLoading = false;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => initializeUserData());
+  }
+
+  Future<void> initializeUserData() async {
     final user = Provider.of<UserProvider>(context, listen: false).user;
-    semester ??= user.semester;
-    section ??= user.section;
+
+    // If data from provider is empty, try fallback
+    if (user.semester.isEmpty || user.section.isEmpty) {
+      final prefs = await SharedPreferences.getInstance();
+      setState(() {
+        semester = prefs.getString('semester') ?? '';
+        section = prefs.getString('section') ?? '';
+      });
+    } else {
+      setState(() {
+        semester = user.semester;
+        section = user.section;
+      });
+    }
+
+    print("✅ DEBUG: Semester = $semester, Section = $section");
     fetchSubjects();
   }
 
   Future<void> fetchSubjects() async {
-    if (semester == null) return;
+    if (semester == null || semester!.isEmpty) return;
 
     try {
       final res = await http.get(
@@ -41,13 +60,9 @@ class _StudentAssignmentsPageState extends State<StudentAssignmentsPage> {
       if (res.statusCode == 200) {
         final data = json.decode(res.body);
         if (data is Map && data.containsKey('subjects')) {
-          setState(() {
-            subjects = List<String>.from(data['subjects']);
-          });
+          setState(() => subjects = List<String>.from(data['subjects']));
         } else if (data is List) {
-          setState(() {
-            subjects = List<String>.from(data);
-          });
+          setState(() => subjects = List<String>.from(data));
         } else {
           _showMessage("Invalid subject data format");
         }
@@ -111,7 +126,7 @@ class _StudentAssignmentsPageState extends State<StudentAssignmentsPage> {
       appBar: AppBar(title: const Text("Your Assignments")),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: semester == null || section == null
+        child: semester == null || semester!.isEmpty || section == null || section!.isEmpty
             ? const Center(child: Text("User semester/section not available"))
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -12,33 +12,30 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:edu/utils/constants.dart';
 
 class HomePage extends StatefulWidget {
-  final String name;
-  final String roll;
-
-  const HomePage({Key? key, required this.name, required this.roll})
-    : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   List<dynamic> notifications = [];
+  String name = '';
+  String roll = '';
 
   void _onBottomNavTap(int index) {
     setState(() => _selectedIndex = index);
 
-    if (index == 2) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => const EduAIPage()),
-      );
-    } else if (index == 1) {
+    if (index == 1) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (_) => const ProfilePage()),
+      );
+    } else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const EduAIPage()),
       );
     }
   }
@@ -66,6 +63,14 @@ class _HomePageState extends State<HomePage>
     }
   }
 
+  Future<void> loadStudentInfo() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      name = prefs.getString('name') ?? 'Student';
+      roll = prefs.getString('roll') ?? 'N/A';
+    });
+  }
+
   Color getRandomColor(int index) {
     final colors = [
       Colors.deepPurpleAccent,
@@ -80,10 +85,12 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
+    loadStudentInfo();
     fetchNotifications();
   }
 
   Future<void> _refresh() async {
+    await loadStudentInfo();
     await fetchNotifications();
   }
 
@@ -91,6 +98,7 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false, // 👈 removes the back button
         title: const Text('Student Dashboard'),
         centerTitle: true,
         actions: [
@@ -112,30 +120,29 @@ class _HomePageState extends State<HomePage>
         child: SafeArea(
           child: Column(
             children: [
-              StudentInfoCard(name: widget.name, roll: widget.roll),
+              StudentInfoCard(name: name, roll: roll),
               SizedBox(
                 height: 160,
-                child:
-                    notifications.isEmpty
-                        ? const Center(child: Text("No notifications found"))
-                        : ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          itemCount: notifications.length,
-                          itemBuilder: (context, index) {
-                            final notif = notifications[index];
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: NotificationCard(
-                                title: notif['title'] ?? 'No Title',
-                                subtitle: notif['message'] ?? 'No Message',
-                                imageUrl: 'assets/images/notification.png',
-                                backgroundColor: getRandomColor(index),
-                                link: notif['link'],
-                              ),
-                            );
-                          },
-                        ),
+                child: notifications.isEmpty
+                    ? const Center(child: Text("No notifications found"))
+                    : ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        itemCount: notifications.length,
+                        itemBuilder: (context, index) {
+                          final notif = notifications[index];
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: NotificationCard(
+                              title: notif['title'] ?? 'No Title',
+                              subtitle: notif['message'] ?? 'No Message',
+                              imageUrl: 'assets/images/notification.png',
+                              backgroundColor: getRandomColor(index),
+                              link: notif['link'],
+                            ),
+                          );
+                        },
+                      ),
               ),
               const SizedBox(height: 16),
               const Padding(
@@ -154,8 +161,6 @@ class _HomePageState extends State<HomePage>
           ),
         ),
       ),
-
-      // 🌟 Floating Animated Bottom Navigation Bar
       bottomNavigationBar: CustomBottomNavBar(
         selectedIndex: _selectedIndex,
         onTap: _onBottomNavTap,

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'loggin_page.dart';
 
 class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
+
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
@@ -15,11 +17,11 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
   final AuthService authService = AuthService();
 
   String? selectedSection;
   String? selectedSemester;
-
   bool _obscureText = true;
 
   void _submitForm() {
@@ -206,7 +208,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (_) => LoginPage()),
+                            MaterialPageRoute(builder: (_) => const LoginPage()),
                           );
                         },
                         child: const Text("Already have an account?  Log In"),

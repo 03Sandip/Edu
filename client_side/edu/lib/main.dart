@@ -1,10 +1,11 @@
 import 'package:edu/provider/user_provider.dart';
 import 'package:edu/screens/home_page.dart';
-import 'package:edu/screens/register_page.dart'; 
+import 'package:edu/screens/loggin_page.dart';
+import 'package:edu/screens/register_page.dart';
 import 'package:edu/services/auth_services.dart';
 import 'package:flutter/material.dart';
-import 'package:edu/screens/loggin_page.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(
@@ -26,31 +27,59 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final AuthService authService = AuthService();
+  bool _isLoading = true;
+  bool _isLoggedIn = false;
 
   @override
   void initState() {
     super.initState();
-    authService.getUserData(context);
+    checkLoginStatus();
+  }
+
+  Future<void> checkLoginStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('x-auth-token') ?? '';
+
+    if (token.isNotEmpty) {
+      bool isValid = await authService.validateToken(token);
+      if (isValid) {
+        // ✅ await is necessary to ensure user data is loaded before showing HomePage
+       await authService.getUserData(context);
+        setState(() => _isLoggedIn = true);
+      }
+    }
+
+    setState(() => _isLoading = false);
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context).user;
-
     return MaterialApp(
-      title: 'Flutter Node Auth',
+      title: 'Edu App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Provider.of<UserProvider>(context).user.token.isEmpty
-          ? const LoginPage()
-          : HomePage(
-              name: user.name,
-              roll: user.roll,
-            ),
+      home: _isLoading
+          ? const SplashScreen()
+          : _isLoggedIn
+              ? const HomePage()
+              : const LoginPage(),
       routes: {
-        '/register': (context) => RegisterPage(), // ✅ Route registered here
+        '/register': (context) => const RegisterPage(),
       },
+    );
+  }
+}
+
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }

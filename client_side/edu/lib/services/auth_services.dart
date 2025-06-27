@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:edu/provider/user_provider.dart';
 import 'package:edu/screens/loggin_page.dart';
 import 'package:edu/utils/constants.dart';
@@ -13,7 +12,7 @@ import 'package:edu/screens/home_page.dart';
 import 'package:edu/widget/success_popup.dart';
 
 class AuthService {
-  // ✅ Sign up user
+  // ✅ Register
   void signUpUser({
     required BuildContext context,
     required String name,
@@ -40,7 +39,7 @@ class AuthService {
       http.Response res = await http.post(
         Uri.parse('${Constants.uri}/api/signup'),
         body: user.toJson(),
-        headers: <String, String>{
+        headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
@@ -57,7 +56,7 @@ class AuthService {
               onDone: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (_) => LoginPage()),
+                  MaterialPageRoute(builder: (_) => const LoginPage()),
                 );
               },
             ),
@@ -69,7 +68,7 @@ class AuthService {
     }
   }
 
-  // ✅ Sign in user
+  // ✅ Login
   void signInUser({
     required BuildContext context,
     required String roll,
@@ -82,7 +81,7 @@ class AuthService {
       http.Response res = await http.post(
         Uri.parse('${Constants.uri}/api/signin'),
         body: jsonEncode({'roll': roll, 'password': password}),
-        headers: <String, String>{
+        headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
@@ -92,17 +91,18 @@ class AuthService {
         context: context,
         onSuccess: () async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
+          final data = jsonDecode(res.body);
+
           userProvider.setUser(res.body);
           await prefs.setString('user', res.body);
-          await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
+          await prefs.setString('x-auth-token', data['token']);
+          await prefs.setString('name', data['name']);
+          await prefs.setString('roll', data['roll']);
+          await prefs.setString('semester', data['semester']);
+          await prefs.setString('section', data['section']);
 
           navigator.pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (context) => HomePage(
-                name: jsonDecode(res.body)['name'],
-                roll: jsonDecode(res.body)['roll'],
-              ),
-            ),
+            MaterialPageRoute(builder: (_) => const HomePage()),
             (route) => false,
           );
         },
@@ -112,75 +112,74 @@ class AuthService {
     }
   }
 
-  /// ✅ Get user data
-/// ✅ Get user data
-void getUserData(BuildContext context) async {
-  try {
-    var userProvider = Provider.of<UserProvider>(context, listen: false);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('x-auth-token');
-
-    print('🔐 Token from storage: $token');
-
-    if (token == null || token.isEmpty) {
-      print('⚠️ No token found. User not logged in.');
-      prefs.setString('x-auth-token', '');
-      return;
-    }
-
-    // Step 1: Validate token
-    var tokenRes = await http.post(
-    Uri.parse('${Constants.uri}/api/tokenIsValid'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'x-auth-token': token,
-      },
-    );
-
-    if (tokenRes.statusCode != 200) {
-      print('❌ Token validation failed. Status: ${tokenRes.statusCode}');
-      showSnackBar(context, 'Session expired. Please log in again.');
-      return;
-    }
-
-    var response = jsonDecode(tokenRes.body);
-    print('✅ Token validation response: $response');
-
-    if (response == true) {
-      // Step 2: Get user data
-      http.Response userRes = await http.get(
-        Uri.parse('${Constants.uri}/'),
-        headers: <String, String>{
+  // ✅ Token Validator for persistent login
+  Future<bool> validateToken(String token) async {
+    try {
+      final res = await http.post(
+        Uri.parse('${Constants.uri}/api/tokenIsValid'),
+        headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'x-auth-token': token,
         },
       );
 
-      if (userRes.statusCode != 200) {
-        print('❌ Failed to fetch user data. Status: ${userRes.statusCode}');
-        print('🧾 Response body: ${userRes.body}');
-        showSnackBar(context, 'Failed to get user data');
+      if (res.statusCode == 200) {
+        return jsonDecode(res.body) == true;
+      }
+    } catch (e) {
+      debugPrint('Token validation error: $e');
+    }
+    return false;
+  }
+
+  // ✅ Get User Data (for persistent login)
+  Future<void> getUserData(BuildContext context) async {
+    try {
+      var userProvider = Provider.of<UserProvider>(context, listen: false);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('x-auth-token');
+
+      if (token == null || token.isEmpty) {
+        await prefs.setString('x-auth-token', '');
         return;
       }
 
-      print('📦 User data: ${userRes.body}');
-      userProvider.setUser(userRes.body);
-    } else {
-      print('❌ Invalid token');
-      showSnackBar(context, 'Invalid token. Please login again.');
+      bool isValid = await validateToken(token);
+      if (!isValid) return;
+
+      http.Response userRes = await http.get(
+        Uri.parse('${Constants.uri}/api/'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': token,
+        },
+      );
+
+      if (userRes.statusCode == 200) {
+        userProvider.setUser(userRes.body);
+        final data = jsonDecode(userRes.body);
+
+        await prefs.setString('name', data['name']);
+        await prefs.setString('roll', data['roll']);
+        await prefs.setString('semester', data['semester']);
+        await prefs.setString('section', data['section']);
+        await prefs.setString('user', userRes.body);
+      } else {
+        debugPrint("❌ Failed to fetch user data: ${userRes.statusCode}");
+      }
+    } catch (e) {
+      debugPrint("❌ Error getting user data: $e");
     }
-  } catch (e) {
-    print('🔥 Exception in getUserData: $e');
-    showSnackBar(context, 'Exception: Failed to get user');
   }
-}
-  // ✅ Sign out user
+
+  // ✅ Logout
   void signOutUser(BuildContext context) async {
     final navigator = Navigator.of(context);
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('x-auth-token');
+    await prefs.clear();
+
     navigator.pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => const LoginPage()),
+      MaterialPageRoute(builder: (_) => const LoginPage()),
       (route) => false,
     );
   }

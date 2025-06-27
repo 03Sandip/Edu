@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:edu/widget/bottom_navbar.dart';
+import 'package:edu/screens/home_page.dart';
+import 'package:edu/screens/profile_page.dart';
 
 class EduAIPage extends StatefulWidget {
   const EduAIPage({Key? key}) : super(key: key);
@@ -11,6 +14,8 @@ class _EduAIPageState extends State<EduAIPage> {
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final List<Map<String, String>> _messages = [];
+
+  int _selectedIndex = 2;
 
   @override
   void initState() {
@@ -30,7 +35,7 @@ class _EduAIPageState extends State<EduAIPage> {
       _messages.add({
         "role": "ai",
         "text": "Thanks for your question. I'm Edu AI, here to help you learn!"
-      }); // Placeholder
+      });
     });
 
     _controller.clear();
@@ -41,6 +46,21 @@ class _EduAIPageState extends State<EduAIPage> {
         curve: Curves.easeOut,
       );
     });
+  }
+
+  void _onBottomNavTap(int index) {
+    setState(() => _selectedIndex = index);
+    if (index == 0) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const HomePage()),
+      );
+    } else if (index == 1) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const ProfilePage()),
+      );
+    }
   }
 
   @override
@@ -66,7 +86,7 @@ class _EduAIPageState extends State<EduAIPage> {
                     padding: const EdgeInsets.all(12),
                     margin: const EdgeInsets.symmetric(vertical: 6),
                     constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width * 0.75),
+                      maxWidth: MediaQuery.of(context).size.width * 0.75),
                     decoration: BoxDecoration(
                       color: isUser ? Colors.blue[600] : Colors.white,
                       borderRadius: BorderRadius.only(
@@ -105,8 +125,7 @@ class _EduAIPageState extends State<EduAIPage> {
                     controller: _controller,
                     decoration: InputDecoration(
                       hintText: "Ask Edu AI...",
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         borderSide: const BorderSide(color: Colors.grey),
@@ -126,6 +145,10 @@ class _EduAIPageState extends State<EduAIPage> {
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: CustomBottomNavBar(
+        selectedIndex: _selectedIndex,
+        onTap: _onBottomNavTap,
       ),
     );
   }
