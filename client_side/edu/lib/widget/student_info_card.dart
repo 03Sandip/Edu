@@ -49,7 +49,7 @@ class StudentInfoCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  name,
+                  name.isNotEmpty ? name : 'Student',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 22,

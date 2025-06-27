@@ -1,3 +1,4 @@
+import 'package:edu/quickaccess/fees_page.dart';
 import 'package:edu/quickaccess/library.dart';
 import 'package:flutter/material.dart';
 import 'package:edu/quickaccess/assigment.dart';
@@ -43,6 +44,9 @@ class QuickAccessGrid extends StatelessWidget {
         break;
       case 'Library':
         Navigator.push(context, MaterialPageRoute(builder: (_) => const StudentLibraryPage()));
+        break;
+        case 'Fees':
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const StudentFeesPage()));
         break;
       // TODO: Add more pages (e.g., Library, Fees) here
     }

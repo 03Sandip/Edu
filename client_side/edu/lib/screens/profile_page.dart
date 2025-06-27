@@ -2,7 +2,6 @@ import 'package:edu/services/auth_services.dart';
 import 'package:edu/widget/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:edu/screens/UserDetails_page.dart';
-
 import 'package:edu/screens/eduai_page.dart';
 import 'package:edu/screens/home_page.dart';
 
@@ -27,7 +26,7 @@ class _ProfilePageState extends State<ProfilePage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (_) => const HomePage(name: '', roll: ''), // Replace with actual values
+          builder: (_) => const HomePage(), // ✅ Removed name & roll
         ),
       );
     } else if (index == 2) {
@@ -48,7 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
         foregroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
-        automaticallyImplyLeading: false, // 🚫 Removes the back button
+        automaticallyImplyLeading: false,
       ),
       body: SafeArea(
         child: Padding(
@@ -80,8 +79,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       icon: Icons.payment_outlined,
                       title: "Payment",
                     ),
+                    buildProfileTile(
+                      context,
+                      icon: Icons.man,
+                      title: "About Us",
+                    ),
                   ],
                 ),
+                
               ),
 
               // Logout Button
@@ -109,7 +114,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
 
-      // Floating Bottom Navigation
+      // Bottom Navigation Bar
       bottomNavigationBar: CustomBottomNavBar(
         selectedIndex: _selectedIndex,
         onTap: _onBottomNavTap,

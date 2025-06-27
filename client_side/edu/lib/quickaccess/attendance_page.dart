@@ -2,12 +2,13 @@ import 'dart:convert';
 import 'package:edu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart'; // Add intl package for date formatting
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AttendanceViewPage extends StatefulWidget {
-  final String rollNumber;
+  final String? rollNumber;
 
-  const AttendanceViewPage({super.key, required this.rollNumber});
+  const AttendanceViewPage({super.key, this.rollNumber});
 
   @override
   State<AttendanceViewPage> createState() => _AttendanceViewPageState();
@@ -16,14 +17,30 @@ class AttendanceViewPage extends StatefulWidget {
 class _AttendanceViewPageState extends State<AttendanceViewPage> {
   List<dynamic> attendanceData = [];
   bool isLoading = true;
-
   int presentCount = 0;
   int absentCount = 0;
+  String? finalRoll;
 
   @override
   void initState() {
     super.initState();
-    fetchAttendance(widget.rollNumber);
+    initializeRollAndFetch();
+  }
+
+  Future<void> initializeRollAndFetch() async {
+    if (widget.rollNumber != null && widget.rollNumber!.isNotEmpty) {
+      finalRoll = widget.rollNumber;
+    } else {
+      final prefs = await SharedPreferences.getInstance();
+      finalRoll = prefs.getString('roll');
+    }
+
+    if (finalRoll == null || finalRoll!.isEmpty) {
+      setState(() => isLoading = false);
+      return;
+    }
+
+    fetchAttendance(finalRoll!);
   }
 
   Future<void> fetchAttendance(String roll) async {
@@ -105,39 +122,41 @@ class _AttendanceViewPageState extends State<AttendanceViewPage> {
       appBar: AppBar(title: const Text("My Attendance")),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : attendanceData.isEmpty
-              ? const Center(child: Text("No attendance records found"))
-              : Column(
-                  children: [
-                    buildSummaryCard(),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: attendanceData.length,
-                        itemBuilder: (context, index) {
-                          final item = attendanceData[index];
-                          final formattedDate = item['date'] != null
-                              ? DateFormat('dd MMM yyyy').format(DateTime.parse(item['date']))
-                              : 'N/A';
+          : finalRoll == null
+              ? const Center(child: Text("Roll number not available"))
+              : attendanceData.isEmpty
+                  ? const Center(child: Text("No attendance records found"))
+                  : Column(
+                      children: [
+                        buildSummaryCard(),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: attendanceData.length,
+                            itemBuilder: (context, index) {
+                              final item = attendanceData[index];
+                              final formattedDate = item['date'] != null
+                                  ? DateFormat('dd MMM yyyy').format(DateTime.parse(item['date']))
+                                  : 'N/A';
 
-                          return Card(
-                            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                            child: ListTile(
-                              title: Text("Subject: ${item['subject'] ?? 'N/A'}"),
-                              subtitle: Text("Date: $formattedDate"),
-                              trailing: Text(
-                                item['status'] == 'Present' ? "✔ Present" : "✘ Absent",
-                                style: TextStyle(
-                                  color: item['status'] == 'Present' ? Colors.green : Colors.red,
-                                  fontWeight: FontWeight.bold,
+                              return Card(
+                                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                child: ListTile(
+                                  title: Text("Subject: ${item['subject'] ?? 'N/A'}"),
+                                  subtitle: Text("Date: $formattedDate"),
+                                  trailing: Text(
+                                    item['status'] == 'Present' ? "✔ Present" : "✘ Absent",
+                                    style: TextStyle(
+                                      color: item['status'] == 'Present' ? Colors.green : Colors.red,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
     );
   }
 }
