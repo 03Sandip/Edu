@@ -58,7 +58,6 @@ class NotificationCard extends StatelessWidget {
       },
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -68,7 +67,7 @@ class NotificationCard extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
   colors: [
-    backgroundColor.withAlpha(222),
+    backgroundColor.withAlpha(226),
     backgroundColor.withAlpha(1),
   ],
   begin: Alignment.topLeft,

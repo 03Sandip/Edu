@@ -1,10 +1,9 @@
+import 'package:edu_teacher/data/semester_subjects.dart';
+import 'package:edu_teacher/utils/constants.dart';
+import 'package:edu_teacher/widgets/nav_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-import 'package:edu_admin/data/semester_subjects.dart';
-import 'package:edu_admin/widgets/nav_widgets.dart';
-import 'package:edu_admin/utils/constants.dart';
 
 class SubjectPage extends StatefulWidget {
   const SubjectPage({Key? key}) : super(key: key);

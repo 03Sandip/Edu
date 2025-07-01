@@ -1,0 +1,34 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "edu_admin",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "edu_admin (profile mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "edu_admin (release mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    },
+    {
+      "name": "Flutter Web (LAN)",
+      "type": "dart",
+      "request": "launch",
+      "deviceId": "web-server",
+      "program": "lib/main.dart",
+      "args": [
+        "--web-hostname=0.0.0.0",
+        "--web-port=62612",
+        "--web-experimental-hot-reload"
+      ]
+    }
+  ]
+}

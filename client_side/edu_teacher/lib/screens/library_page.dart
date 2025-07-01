@@ -247,7 +247,6 @@ class _LibraryPageState extends State<LibraryPage> {
                                 onChanged: (val) => setState(() => type = val ?? 'Book'),
                               ),
                               const SizedBox(height: 20),
-
                               if (!isEditing) ...[
                                 Row(
                                   children: [
@@ -272,7 +271,6 @@ class _LibraryPageState extends State<LibraryPage> {
                                 ),
                                 const SizedBox(height: 30),
                               ],
-
                               Row(
                                 children: [
                                   ElevatedButton.icon(
@@ -299,7 +297,6 @@ class _LibraryPageState extends State<LibraryPage> {
                             ],
                           ),
                         ),
-
                         /// Uploaded Items List
                         const Divider(thickness: 1),
                         const Text("📁 Uploaded Items", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),

@@ -1,8 +1,9 @@
-import 'package:edu_admin/screens/student_detail_page.dart';
+import 'package:edu_teacher/screens/student_detail_page.dart';
+import 'package:edu_teacher/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:edu_admin/utils/constants.dart';
+
 
 class StudentList extends StatefulWidget {
   final String? selectedSemester;

@@ -1,6 +1,7 @@
 import 'dart:convert';
+import 'package:edu_teacher/utils/constants.dart';
 import 'package:http/http.dart' as http;
-import 'package:edu_admin/utils/constants.dart';
+
 
 class StudentService {
   static Future<List<Map<String, dynamic>>> fetchStudents() async {

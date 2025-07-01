@@ -1,18 +1,18 @@
-import 'package:edu_admin/screens/library_page.dart';
-import 'package:edu_admin/screens/notifications_page.dart';
 import 'package:flutter/material.dart';
-import 'package:edu_admin/screens/admin_home_page.dart';
-import 'package:edu_admin/screens/student_page.dart';
-import 'package:edu_admin/screens/subject_page.dart';
-import 'package:edu_admin/screens/notes_page.dart';
-import 'package:edu_admin/screens/attendance_page.dart';
-// import 'package:edu_admin/screens/exams_page.dart';
-import 'package:edu_admin/screens/assignments_page.dart';
-import 'package:edu_admin/screens/marksheets.dart';
-// import 'package:edu_admin/screens/events_page.dart';
-// import 'package:edu_admin/screens/messages_page.dart';
-// import 'package:edu_admin/screens/announcements_page.dart';
-// import 'package:edu_admin/screens/settings_page.dart';
+import 'package:edu_teacher/screens/library_page.dart';
+import 'package:edu_teacher/screens/notifications_page.dart';
+import 'package:edu_teacher/screens/notes_page.dart';
+import 'package:edu_teacher/screens/attendance_page.dart';
+// import 'package:edu_teacher/screens/exams_page.dart';
+import 'package:edu_teacher/screens/assignments_page.dart';
+import 'package:edu_teacher/screens/marksheets.dart';
+import 'package:edu_teacher/screens/home_page.dart';
+import 'package:edu_teacher/screens/student_page.dart';
+import 'package:edu_teacher/screens/subject_page.dart';
+// import 'package:edu_teacher/screens/events_page.dart';
+// import 'package:edu_teacher/screens/messages_page.dart';
+// import 'package:edu_teacher/screens/announcements_page.dart';
+// import 'package:edu_teacher/screens/settings_page.dart';
 
 class SideNavBar extends StatelessWidget {
   final String selectedItem;

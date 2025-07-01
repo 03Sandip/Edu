@@ -1,8 +1,9 @@
+import 'package:edu_teacher/widgets/attendance_controller.dart';
+import 'package:edu_teacher/widgets/attendence_student_list.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/nav_widgets.dart';
 import '../../widgets/attendance_form.dart';
-import 'package:edu_admin/widgets/attendence_student_list.dart';
-import 'package:edu_admin/widgets/attendance_controller.dart';
+
 
 class AttendancePage extends StatefulWidget {
   const AttendancePage({super.key});
