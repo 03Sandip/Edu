@@ -1,7 +1,7 @@
 import 'package:adu_admin/utils/constants.dart';
 import 'package:adu_admin/utils/dropdown_constants.dart';
 import 'package:adu_admin/widgets/nav_widgets.dart';
-import 'package:adu_admin/widgets/fees_student_list.dart'; // ✅ Import your external widget
+import 'package:adu_admin/widgets/fees_student_list.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -141,7 +141,7 @@ class _FeesPageState extends State<FeesPage> {
         body: jsonEncode({
           'title': 'Pending Fees Alert',
           'message': 'Your fees are unpaid. Please pay as soon as possible.',
-          'target': {'rollNumber': roll},
+          'rollNumber': roll, // ✅ Send directly
           'timestamp': DateTime.now().toIso8601String(),
         }),
       );
@@ -150,7 +150,7 @@ class _FeesPageState extends State<FeesPage> {
         SnackBar(content: Text('Notification sent to $roll')),
       );
     } catch (e) {
-      print("Notification error: $e");
+      print("❌ Notification error: $e");
     }
   }
 

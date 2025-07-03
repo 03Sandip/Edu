@@ -159,35 +159,6 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
       ),
     );
   }
-  Widget _buildStatCard(String title, String value, Color color) {
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8),
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: color.withOpacity(0.2),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: const Text("2024/25", style: TextStyle(fontSize: 10)),
-            ),
-            const SizedBox(height: 10),
-            Text(value, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 4),
-            Text(title, style: const TextStyle(fontSize: 14)),
-          ],
-        ),
-      ),
-    );
-  }
   Widget _buildPlaceholderBox(String label, {double height = 200}) {
     return Container(
       height: height,

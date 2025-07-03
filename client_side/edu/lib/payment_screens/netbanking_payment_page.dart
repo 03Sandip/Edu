@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:edu/services/payment_service.dart';
+import 'package:edu/utils/payment_utils.dart'; // ✅ Import success popup
 
 class NetBankingPage extends StatelessWidget {
   final String semester;
@@ -54,13 +55,13 @@ class NetBankingPage extends StatelessWidget {
 
                   final success = await PaymentService.markAsPaid(amount: amount);
                   if (success) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("✅ Payment Successful")),
-                    );
-                    Navigator.pop(context); // Go back after payment
+                    handlePaymentSuccess(context); // ✅ Show success popup + redirect
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("❌ Payment failed. Try again.")),
+                      const SnackBar(
+                        content: Text("❌ Payment failed. Try again."),
+                        backgroundColor: Colors.red,
+                      ),
                     );
                   }
                 },

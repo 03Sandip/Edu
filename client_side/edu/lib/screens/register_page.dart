@@ -59,6 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white, // ✅ Set white background
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
@@ -142,8 +143,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ))
                             .toList(),
                         onChanged: (value) => setState(() => selectedSection = value),
-                        validator: (value) =>
-                            value == null ? "Select section" : null,
+                        validator: (value) => value == null ? "Select section" : null,
                       ),
                       const SizedBox(height: 15),
                       DropdownButtonFormField<String>(
@@ -161,8 +161,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ))
                             .toList(),
                         onChanged: (value) => setState(() => selectedSemester = value),
-                        validator: (value) =>
-                            value == null ? "Select semester" : null,
+                        validator: (value) => value == null ? "Select semester" : null,
                       ),
                       const SizedBox(height: 15),
                       TextFormField(

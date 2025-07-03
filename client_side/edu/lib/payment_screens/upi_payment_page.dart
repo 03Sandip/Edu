@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:edu/services/payment_service.dart';
+import 'package:edu/utils/payment_utils.dart'; // <-- Import the utility
 
 class UPIPaymentPage extends StatelessWidget {
   final String semester;
@@ -21,14 +22,10 @@ class UPIPaymentPage extends StatelessWidget {
       return;
     }
 
-    // ✅ Call PaymentService (only amount needed, roll/semester fetched internally)
     bool success = await PaymentService.markAsPaid(amount: amount);
 
     if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("✅ Payment successful")),
-      );
-      Navigator.pop(context);
+      handlePaymentSuccess(context); // ✅ Use the shared function
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -51,12 +48,12 @@ class UPIPaymentPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Semester: $semester", style: const TextStyle(fontSize: 16)),
-            Text("Roll Number: $rollNumber", style: const TextStyle(fontSize: 14, color: Colors.grey)),
+            Text("Roll Number: $rollNumber",
+                style: const TextStyle(fontSize: 14, color: Colors.grey)),
             const SizedBox(height: 20),
-
-            const Text("Scan QR or Enter UPI ID", style: TextStyle(fontSize: 18)),
+            const Text("Scan QR or Enter UPI ID",
+                style: TextStyle(fontSize: 18)),
             const SizedBox(height: 20),
-
             Row(
               children: [
                 Expanded(
@@ -83,19 +80,22 @@ class UPIPaymentPage extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             Text("Amount: ₹$amount",
-                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                style: const TextStyle(
+                    fontSize: 22, fontWeight: FontWeight.bold)),
             const Spacer(),
-
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => _handlePayment(context, upiController.text.trim()),
+                onPressed: () =>
+                    _handlePayment(context, upiController.text.trim()),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
                 ),
-                child: const Text("Pay Now", style: TextStyle(color: Colors.white)),
+                child: const Text("Pay Now",
+                    style: TextStyle(color: Colors.white)),
               ),
             ),
           ],

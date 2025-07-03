@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:edu/services/payment_service.dart';
+import 'package:edu/utils/payment_utils.dart'; // <-- Import utility
 
 class CardsPaymentPage extends StatelessWidget {
   final String semester;
@@ -17,10 +18,7 @@ class CardsPaymentPage extends StatelessWidget {
     bool success = await PaymentService.markAsPaid(amount: amount);
 
     if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("✅ Payment successful")),
-      );
-      Navigator.pop(context);
+      handlePaymentSuccess(context); // ✅ Use shared dialog+redirect
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -45,10 +43,12 @@ class CardsPaymentPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Semester: $semester", style: const TextStyle(fontSize: 16)),
-            Text("Roll Number: $rollNumber", style: const TextStyle(fontSize: 14, color: Colors.grey)),
+            Text("Roll Number: $rollNumber",
+                style: const TextStyle(fontSize: 14, color: Colors.grey)),
             const SizedBox(height: 16),
 
-            const Text("Enter Card Details", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const Text("Enter Card Details",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
 
             TextField(
@@ -110,7 +110,8 @@ class CardsPaymentPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
-                child: const Text("Pay Now", style: TextStyle(color: Colors.white, fontSize: 16)),
+                child: const Text("Pay Now",
+                    style: TextStyle(color: Colors.white, fontSize: 16)),
               ),
             ),
           ],

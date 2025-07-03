@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../utils/constants.dart';
-import '../widgets/nav_widgets.dart';
 import '../utils/dropdown_constants.dart';
+import '../widgets/nav_widgets.dart';
 
 class FeeStructurePage extends StatefulWidget {
   const FeeStructurePage({super.key});
@@ -15,14 +15,21 @@ class FeeStructurePage extends StatefulWidget {
 class _FeeStructurePageState extends State<FeeStructurePage> {
   String selectedSemester = DropdownConstants.semesters[0];
   final TextEditingController amountController = TextEditingController();
+  final FocusNode amountFocusNode = FocusNode();
   bool isLoading = false;
   Map<String, dynamic> feeData = {};
-  String? lastUpdated;
 
   @override
   void initState() {
     super.initState();
     fetchFeeStructure();
+  }
+
+  @override
+  void dispose() {
+    amountController.dispose();
+    amountFocusNode.dispose();
+    super.dispose();
   }
 
   Future<void> fetchFeeStructure() async {
@@ -36,13 +43,15 @@ class _FeeStructurePageState extends State<FeeStructurePage> {
           for (var item in data) {
             feeData[item['semester']] = item['amount'];
           }
-          amountController.text = feeData[selectedSemester]?.toString() ?? '';
+          if (!amountFocusNode.hasFocus) {
+            amountController.text = feeData[selectedSemester]?.toString() ?? '';
+          }
         });
       } else {
         showSnackBar("Failed to fetch fee structure");
       }
     } catch (e) {
-      print('Fetch error: $e');
+      print('❌ Fetch error: $e');
       showSnackBar("Error fetching data");
     } finally {
       setState(() => isLoading = false);
@@ -73,7 +82,7 @@ class _FeeStructurePageState extends State<FeeStructurePage> {
         showSnackBar("Failed to update");
       }
     } catch (e) {
-      print('Update error: $e');
+      print('❌ Update error: $e');
       showSnackBar("Error updating fee");
     }
   }
@@ -94,7 +103,7 @@ class _FeeStructurePageState extends State<FeeStructurePage> {
     return Scaffold(
       body: Row(
         children: [
-          SideNavBar(selectedItem: "Fee Structure"),
+          const SideNavBar(selectedItem: SideNavBar.navFeeStructure),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
@@ -105,22 +114,24 @@ class _FeeStructurePageState extends State<FeeStructurePage> {
                       children: [
                         Row(
                           children: const [
-                            Icon(Icons.attach_money, size: 28, color: Colors.blueAccent),
+                            Icon(Icons.account_balance_wallet, size: 28, color: Colors.blueAccent),
                             SizedBox(width: 10),
-                            Text("Manage Semester Fee Structure",
-                                style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black87)),
+                            Text(
+                              "Manage Semester Fee Structure",
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87,
+                              ),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 20),
 
-                        // Update Form
+                        /// Update Form
                         Card(
                           elevation: 3,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                           child: Padding(
                             padding: const EdgeInsets.all(20.0),
                             child: Wrap(
@@ -133,19 +144,20 @@ class _FeeStructurePageState extends State<FeeStructurePage> {
                                   onChanged: (value) {
                                     setState(() {
                                       selectedSemester = value!;
-                                      amountController.text =
-                                          feeData[selectedSemester]?.toString() ?? '';
+                                      if (!amountFocusNode.hasFocus) {
+                                        amountController.text = feeData[selectedSemester]?.toString() ?? '';
+                                      }
                                     });
                                   },
                                   items: DropdownConstants.semesters
-                                      .map((sem) =>
-                                          DropdownMenuItem(value: sem, child: Text(sem)))
+                                      .map((sem) => DropdownMenuItem(value: sem, child: Text(sem)))
                                       .toList(),
                                 ),
                                 SizedBox(
                                   width: 160,
                                   child: TextField(
                                     controller: amountController,
+                                    focusNode: amountFocusNode,
                                     keyboardType: TextInputType.number,
                                     decoration: const InputDecoration(
                                       labelText: "Amount (₹)",
@@ -158,8 +170,7 @@ class _FeeStructurePageState extends State<FeeStructurePage> {
                                   icon: const Icon(Icons.save),
                                   label: const Text("Save"),
                                   style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 12),
+                                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                                     backgroundColor: Colors.blue,
                                   ),
                                 ),
@@ -171,21 +182,21 @@ class _FeeStructurePageState extends State<FeeStructurePage> {
                         const SizedBox(height: 30),
                         const Divider(),
                         const SizedBox(height: 10),
-                        const Text("Current Fee Structure",
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        const Text(
+                          "Current Fee Structure",
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
                         const SizedBox(height: 10),
 
                         feeData.isEmpty
                             ? const Text("No fee structure data available.")
                             : Card(
                                 elevation: 2,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12)),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                 child: ListView.separated(
                                   shrinkWrap: true,
                                   itemCount: feeData.length,
-                                  separatorBuilder: (_, __) =>
-                                      const Divider(height: 1, color: Colors.grey),
+                                  separatorBuilder: (_, __) => const Divider(height: 1, color: Colors.grey),
                                   itemBuilder: (context, index) {
                                     String sem = feeData.keys.elementAt(index);
                                     int amount = feeData[sem];
@@ -196,27 +207,22 @@ class _FeeStructurePageState extends State<FeeStructurePage> {
                                       trailing: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Text("₹$amount",
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold)),
+                                          Text("₹$amount", style: const TextStyle(fontWeight: FontWeight.bold)),
                                           const SizedBox(width: 10),
                                           IconButton(
                                             onPressed: () => handleEdit(sem),
-                                            icon: const Icon(Icons.edit,
-                                                color: Colors.orange),
+                                            icon: const Icon(Icons.edit, color: Colors.orange),
                                             tooltip: 'Edit',
                                           ),
                                         ],
                                       ),
-                                      tileColor: sem == selectedSemester
-                                          ? Colors.blue.shade50
-                                          : null,
+                                      tileColor: sem == selectedSemester ? Colors.blue.shade50 : null,
                                     );
                                   },
                                 ),
                               ),
                       ],
-                  ),
+                    ),
             ),
           ),
         ],

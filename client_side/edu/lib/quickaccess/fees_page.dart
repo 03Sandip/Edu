@@ -1,3 +1,4 @@
+import 'package:edu/screens/home_page.dart';
 import 'package:edu/screens/payment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -99,10 +100,25 @@ class _StudentFeesPageState extends State<StudentFeesPage> {
     );
   }
 
+  void _goToHomePage() {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (_) => const HomePage()), // ✅ Replace if needed
+      (route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("My Fees"), centerTitle: true),
+      appBar: AppBar(
+        title: const Text("My Fees"),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: _goToHomePage,
+        ),
+      ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : semester == null

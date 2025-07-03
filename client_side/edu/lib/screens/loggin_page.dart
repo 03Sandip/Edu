@@ -42,6 +42,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white, // 👈 Set background to white
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -94,7 +95,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   validator: (value) =>
-                      value == null || value.length < 6 ? 'Password must be at least 6 characters' : null,
+                      value == null || value.length < 6
+                          ? 'Password must be at least 6 characters'
+                          : null,
                 ),
                 const SizedBox(height: 30),
                 SizedBox(
