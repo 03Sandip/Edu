@@ -1,0 +1,33 @@
+name: Flutter Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: 🛠 Set up Flutter
+        uses: flutter-actions/setup-flutter@v4
+        with:
+          channel: stable
+          version: '3.22.1'
+
+      - name: 📦 Install dependencies
+        run: flutter pub get
+        working-directory: client_side/edu
+
+      - name: 🏗️ Build APK
+        run: flutter build apk --release
+        working-directory: client_side/edu
+
+      - name: 📤 Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: client_side/edu/build/app/outputs/flutter-apk/app-release.apk
