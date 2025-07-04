@@ -19,3 +19,6 @@ Thumbs.db
 # SSH keys (ignore private/public keys)
 edu_key.pub
 edu_key.pem
+
+
+.terraform/
