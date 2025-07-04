@@ -31,4 +31,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: client_side/edu/build/app/outputs/flutter-apk/app-release.apk
+          path: client_side/edu/build/app/outputs/flutter-apk/app-release.apk  # ✅ fixed
