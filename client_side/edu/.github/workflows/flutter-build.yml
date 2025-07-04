@@ -3,7 +3,7 @@ name: Flutter Build
 on:
   push:
     branches:
-      - main  # Change to 'master' if you're using that
+      - main  # or master if you use that
 
 jobs:
   build:
@@ -24,7 +24,7 @@ jobs:
         run: flutter build apk --release
 
       - name: Upload APK artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: app-release
           path: build/app/outputs/flutter-apk/app-release.apk
