@@ -16,7 +16,7 @@ jobs:
       - name: 🛠 Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.1'  # ✅ Dart SDK >= 3.7.2 compatible
+          flutter-version: '3.22.1'  # ✅ Includes Dart 3.7.2
           channel: stable
 
       - name: 📦 Install dependencies
@@ -27,7 +27,7 @@ jobs:
         run: flutter build apk --release
         working-directory: client_side/edu
 
-      - name: 📤 Upload APK
+      - name: 📤 Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release
