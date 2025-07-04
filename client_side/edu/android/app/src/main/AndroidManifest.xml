@@ -1,4 +1,9 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.edu">
+
+    <!-- ✅ Add this line -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:label="edu"
         android:name="${applicationName}"
@@ -24,6 +29,7 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+
     <queries>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT" />
