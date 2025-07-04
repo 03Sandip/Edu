@@ -11,16 +11,20 @@ jobs:
 
     defaults:
       run:
-        working-directory: client_side/edu
+        working-directory: client_side/edu  # 👈 Make sure this points to your Flutter project
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.19.0"
-          channel: "stable"  # 👈 Add this line
+          channel: stable  # 👈 This ensures Dart 3.7.2 is included
+
+      - name: Run flutter doctor (optional but useful for debug)
+        run: flutter doctor -v
 
       - name: Get dependencies
         run: flutter pub get
