@@ -9,6 +9,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: client_side/edu  # 👈 Set working directory here
+
     steps:
       - uses: actions/checkout@v3
 
@@ -27,4 +31,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: client_side/edu/build/app/outputs/flutter-apk/app-release.apk  # 👈 full path here
