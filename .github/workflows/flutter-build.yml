@@ -16,7 +16,7 @@ jobs:
         uses: flutter-actions/setup-flutter@v4
         with:
           channel: stable
-          version: '3.22.1'
+          version: '3.32.5'   # ✅ Updated version
 
       - name: 📦 Install dependencies
         run: flutter pub get
