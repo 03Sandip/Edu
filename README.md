@@ -61,15 +61,6 @@ Many features are being improved, and new functionalities are on the way. Stay t
 
 ---
 
-## 📁 Project Structure (High-Level)
-
-📦 **Edu**  
-├── 📁 **client_side/** — *Flutter apps (Student & Admin)*  
-├── 📁 **server_side/** — *Backend APIs (Node.js + Express)*  
-├── 📁 **uploads/** — *Uploaded files (notes, assignments, etc.)*  
-├── 📁 **dev_tools/** — *Python helper scripts*  
-
-
 ---
 
 ## 🤝 Contributing
