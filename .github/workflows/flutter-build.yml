@@ -3,35 +3,31 @@ name: Flutter Build
 on:
   push:
     branches:
-      - main
+      - main  # Trigger only when pushing to 'main'
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source
+      - name: ⬇️ Checkout source
         uses: actions/checkout@v3
 
-      - name: Set up Flutter
+      - name: 🛠 Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.19.0'
           channel: stable
 
-      - name: Run flutter doctor
-        run: flutter doctor -v
-        working-directory: client_side/edu
-
-      - name: Get dependencies
+      - name: 📦 Install dependencies
         run: flutter pub get
         working-directory: client_side/edu
 
-      - name: Build APK
+      - name: 🏗️ Build APK
         run: flutter build apk --release
         working-directory: client_side/edu
 
-      - name: Upload APK artifact
+      - name: 📤 Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release
