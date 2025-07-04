@@ -15,3 +15,7 @@ Thumbs.db
 # IDE/editor folders
 .vscode/
 .idea/
+
+# SSH keys (ignore private/public keys)
+edu_key.pub
+edu_key.pem
