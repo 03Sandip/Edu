@@ -3,7 +3,7 @@ name: Flutter Build
 on:
   push:
     branches:
-      - main  # or master if you use that
+      - main
 
 jobs:
   build:
@@ -11,7 +11,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: client_side/edu  # 👈 Set working directory here
+        working-directory: client_side/edu
 
     steps:
       - uses: actions/checkout@v3
@@ -20,6 +20,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.19.0"
+          channel: "stable"  # 👈 Add this line
 
       - name: Get dependencies
         run: flutter pub get
@@ -31,4 +32,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: client_side/edu/build/app/outputs/flutter-apk/app-release.apk  # 👈 full path here
+          path: client_side/edu/build/app/outputs/flutter-apk/app-release.apk
