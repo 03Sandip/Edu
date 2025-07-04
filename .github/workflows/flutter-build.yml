@@ -9,28 +9,27 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: client_side/edu  # 👈 Make sure this points to your Flutter project
-
     steps:
-      - name: Checkout repository
+      - name: Checkout source
         uses: actions/checkout@v3
 
-      - name: Install Flutter
+      - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.19.0"
-          channel: stable  # 👈 This ensures Dart 3.7.2 is included
+          flutter-version: '3.19.0'
+          channel: stable
 
-      - name: Run flutter doctor (optional but useful for debug)
+      - name: Run flutter doctor
         run: flutter doctor -v
+        working-directory: client_side/edu
 
       - name: Get dependencies
         run: flutter pub get
+        working-directory: client_side/edu
 
-      - name: Build release APK
+      - name: Build APK
         run: flutter build apk --release
+        working-directory: client_side/edu
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
