@@ -6,5 +6,5 @@ class Constants {
   // static const String uri = 'http://192.168.1.4:3000';
 
   // ✅ Production server (AWS EC2)
-  static const String uri = 'http:/13.201.19.104:3000';
+  static const String uri = 'http://13.201.19.104:3000';
 }
