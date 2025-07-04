@@ -3,7 +3,7 @@ name: Flutter Build
 on:
   push:
     branches:
-      - main  # Trigger only when pushing to 'main'
+      - main
 
 jobs:
   build:
@@ -16,7 +16,7 @@ jobs:
       - name: 🛠 Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.1'
+          flutter-version: '3.22.1'  # ✅ Dart SDK >= 3.7.2 compatible
           channel: stable
 
       - name: 📦 Install dependencies
@@ -27,8 +27,8 @@ jobs:
         run: flutter build apk --release
         working-directory: client_side/edu
 
-      - name: 📤 Upload APK artifact
+      - name: 📤 Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: client_side/edu/build/app/outputs/flutter-apk/app-release.apk  # ✅ fixed
+          path: client_side/edu/build/app/outputs/flutter-apk/app-release.apk
