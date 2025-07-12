@@ -1,85 +1,118 @@
 # 📚 Edu – Student & Admin App
 
-![Status](https://img.shields.io/badge/status-in%20development-orange)
+![Status](https://img.shields.io/badge/status-deployed-brightgreen)
 ![Made with Flutter](https://img.shields.io/badge/frontend-flutter-blue)
 ![Made with Node.js](https://img.shields.io/badge/backend-node.js-green)
 ![Database](https://img.shields.io/badge/database-mongodb-brightgreen)
 
-Edu is a full-stack academic application designed for both **students** and **administrators**, built using **Flutter** for the front end and **Node.js + Express + MongoDB** for the back end.
+**Edu** is a full-stack academic management platform for **students**, **teachers**, and **administrators**. Built with **Flutter** for frontend (mobile & web), and **Node.js + Express + MongoDB** for backend, Edu streamlines day-to-day academic workflows from notifications to marksheets and fee management.
 
 ---
 
-## 🚧 Current Status
+## 🚀 Deployment Status
 
-> **In Progress:** This app is currently under active development.  
-Many features are being improved, and new functionalities are on the way. Stay tuned!
+> ✅ **Live & Active**  
+> The Edu system is now deployed and in use.  
+> New features are being added and refined continuously!
 
 ---
 
 ## 🎯 Project Overview
 
-### 👨‍🎓 Student App (Flutter)
-- 📖 View results, notes, and subject-wise attendance
-- 🔔 Receive notifications and announcements
-- 🧑‍💼 Access student profile and semester-specific data
+### 👨‍🎓 Student App (Flutter Mobile)
+- 📖 View results, notes, assignments
+- 📊 Subject-wise attendance
+- 🔔 Real-time notifications & announcements
+- 💰 View submitted and upcoming fees
+- 📚 Access books & research papers
+- 📄 Download invoices and marksheets
+
+### 👩‍🏫 Teacher Panel (Flutter Web)
+- 👥 Manage student records
+- 📝 Upload results, notes, and assignments
+- 📆 Mark & manage attendance
+- 📢 Post announcements
+- 📚 Upload research papers and books to library
 
 ### 🧑‍💼 Admin Panel (Flutter Web)
-- 👥 Manage student records
-- 📑 Upload results, notes, and assignments
-- 📆 Mark and manage attendance
-- 📢 Post announcements and notifications
-- 📚 Upload research papers and books (Library feature)
+- 🏷️ Assign semester-wise fee structures
+- 💸 Track student fee submissions
+- 📤 Send payment reminders
+- 🔄 Manage status of fees (Paid/Unpaid)
+- 🔍 Monitor fee history per student
 
-### 🌐 Backend (Node.js + Express)
-- 🔐 User authentication & session management
-- 🧾 RESTful APIs for all app features
-- ☁️ MongoDB as the database
+---
+
+## 🌐 Backend (Node.js + Express)
+- 🔐 JWT-based authentication
+- 📡 RESTful API for all modules
+- ☁️ MongoDB Atlas for cloud database
+- 📤 File uploads (PDFs, marksheets, etc.)
+- 🧩 Modular API design
 
 ---
 
 ## 🛠 Tech Stack
 
-| Layer         | Technology             |
-|---------------|------------------------|
-| Frontend      | Flutter (Mobile & Web) |
-| Backend       | Node.js, Express.js    |
-| Database      | MongoDB (Atlas)        |
-| DevOps (WIP)  | Git, Docker, Jenkins   |
+| Layer        | Technology               |
+|--------------|--------------------------|
+| Frontend     | Flutter (Mobile & Web)   |
+| Backend      | Node.js, Express.js      |
+| Database     | MongoDB (Atlas)          |
+| DevOps       | Docker, GitHub Actions *(WIP)* |
 
 ---
 
-## ✅ Features (Implemented & Upcoming)
+## ✅ Features
 
-- ✅ Login/Register (Student & Admin)
-- ✅ Notes & Assignment Uploads
-- ✅ Notification System
-- ✅ Library (Books & Research Papers)
-- ✅ Marksheet Upload & View
-- 🕒 OTP Authentication *(Upcoming)*
-- 🧠 AI Integration *(Planned)*
-- 🧪 Testing & Deployment *(WIP)*
+| Status | Feature |
+|--------|---------|
+| ✅ | Login/Register (Student, Teacher, Admin) |
+| ✅ | Notes, Assignments Upload & Access |
+| ✅ | Notification System |
+| ✅ | Library – Books & Research Papers |
+| ✅ | Marksheet Upload & View |
+| ✅ | Student Fee Submission & Invoice |
+| ✅ | Admin Fee Management Dashboard |
+| 🕒 | OTP Authentication *(Upcoming)* |
+| 🔍 | AI-powered Suggestions *(Planned)* |
+| ⚙️ | DevOps CI/CD + Monitoring *(In Progress)* |
 
 ---
+
+## 📂 Folder Structure (Simplified)
+
+Edu/
+├── frontend/
+│ ├── edu/ # Flutter student app
+│ ├── edu_teacher/ # Teacher panel (Flutter web)
+│ └── edu_admin/ # Admin panel (Flutter web)
+├── backend/
+│ ├── routes/
+│ ├── controllers/
+│ ├── models/
+│ └── server.js
+└── dev_tools/
+
 
 ---
 
 ## 🤝 Contributing
 
 This is currently a personal/academic project.  
-Contributions are welcome once the first stable release is out.
+Contributions will be welcome after the first public release milestone.
 
 ---
 
 ## 📢 Disclaimer
 
-This repository is for **educational and development purposes only**.  
-It is not production-ready, and many features are still in progress.
+This repository is built for **educational purposes** and is under active development.  
+The app is now deployed, but **some features are still evolving**.
 
-> ⚠️ **Note:** A Python script used for generating files during development is included in the repository.  
-It is located in `dev_tools/` and is **not part of the main Edu app functionality**.
+> 🔧 The `dev_tools/` folder contains utilities not part of the main production build.
 
 ---
 
 ## 🔗 GitHub
 
-[👉 03Sandip/Edu on GitHub](https://github.com/03Sandip/Edu)
+[🚀 Visit the Edu GitHub Repository](https://github.com/03Sandip/Edu)
