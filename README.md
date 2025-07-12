@@ -82,19 +82,7 @@
 
 ## 📂 Folder Structure (Simplified)
 
-Edu/
-├── frontend/
-│ ├── edu/ # Flutter student app
-│ ├── edu_teacher/ # Teacher panel (Flutter web)
-│ └── edu_admin/ # Admin panel (Flutter web)
-├── backend/
-│ ├── routes/
-│ ├── controllers/
-│ ├── models/
-│ └── server.js
-└── dev_tools/
-
-
+<pre> Edu/ ├── frontend/ │ ├── edu/ # Flutter student app │ ├── edu_teacher/ # Teacher panel (Flutter web) │ └── edu_admin/ # Admin panel (Flutter web) ├── backend/ │ ├── routes/ │ ├── controllers/ │ ├── models/ │ └── server.js └── dev_tools/ # Development utilities (e.g., schema generator) </pre>
 ---
 
 ## 🤝 Contributing
